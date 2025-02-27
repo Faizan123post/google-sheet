@@ -1,70 +1,128 @@
-# Getting Started with Create React App
+# Google Sheets Clone
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A web application that closely mimics the user interface and core functionalities of Google Sheets, built with React.js.
 
-## Available Scripts
+## Features
 
-In the project directory, you can run:
+1. **Spreadsheet Interface**
+   - Google Sheets-like UI with toolbar, formula bar, and cell structure
+   - Drag functionality for cell selections
+   - Cell dependencies with formula recalculation
+   - Cell formatting (bold, italic)
+   - Adding, deleting, and resizing rows and columns
 
-### `npm start`
+2. **Mathematical Functions**
+   - SUM: Calculates the sum of a range of cells
+   - AVERAGE: Calculates the average of a range of cells
+   - MAX: Returns the maximum value from a range of cells
+   - MIN: Returns the minimum value from a range of cells
+   - COUNT: Counts the number of cells containing numerical values in a range
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+3. **Data Quality Functions**
+   - TRIM: Removes leading and trailing whitespace from a cell
+   - UPPER: Converts the text in a cell to uppercase
+   - LOWER: Converts the text in a cell to lowercase
+   - REMOVE_DUPLICATES: Removes duplicate rows from a selected range
+   - FIND_AND_REPLACE: Allows users to find and replace specific text within a range of cells
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+4. **Data Entry and Validation**
+   - Input of various data types (numbers, text)
+   - Cell editing via double-click or formula bar
 
-### `npm test`
+5. **Additional Features**
+   - Multiple sheets support
+   - Copy and paste functionality
+   - Save and load spreadsheets to/from localStorage
+   - Keyboard shortcuts (Ctrl+C, Ctrl+V, Ctrl+B, Ctrl+I)
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Data Structures and Tech Stack
 
-### `npm run build`
+### Tech Stack
+- **React.js**: Used for building the user interface with a component-based architecture
+- **JavaScript (ES6+)**: Core programming language
+- **CSS3**: For styling the application to mimic Google Sheets' appearance
+- **HTML5**: Structure of the application
+- **LocalStorage API**: For saving and loading spreadsheets
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### Data Structures
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+#### Spreadsheet Data Model
+The application uses a nested array structure to represent the spreadsheet:
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+```javascript
+sheets = [
+  {
+    id: Number,
+    name: String,
+    data: [
+      [
+        {
+          value: Any,  // The actual value
+          formula: String,  // The formula if present
+          display: String,  // What is shown to the user
+          style: {  // Cell styling
+            fontWeight: String,
+            fontStyle: String,
+            fontSize: String,
+            color: String,
+            backgroundColor: String,
+          }
+        },
+        // More cells in the row
+      ],
+      // More rows
+    ],
+    selectedCell: { row: Number, col: Number },
+    selectedRange: { startRow: Number, startCol: Number, endRow: Number, endCol: Number } | null,
+    columnWidths: [Number, Number, ...],
+    rowHeights: [Number, Number, ...],
+  },
+  // More sheets
+]
+```
 
-### `npm run eject`
+This structure was chosen for several reasons:
+1. **Direct indexing**: Accessing cells by row and column indices is O(1)
+2. **Mutable structure**: Allows for efficient updates to specific cells
+3. **Separation of concerns**: Keeps formula, display value, and styling separate
+4. **Intuitive representation**: Mimics the 2D structure of a spreadsheet
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+#### Formula Evaluation
+For formula evaluation, the application uses a custom parser that:
+1. Identifies function calls (SUM, AVERAGE, etc.)
+2. Parses cell references (A1, B2) and range references (A1:B3)
+3. Evaluates the formula based on the referenced cell values
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+This approach allows for efficient formula calculation without requiring a full expression parser.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+## How to Run
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+1. Clone the repository
+```
+git clone https://github.com/yourusername/google-sheets-clone.git
+cd google-sheets-clone
+```
 
-## Learn More
+2. Install dependencies
+```
+npm install
+```
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+3. Start the development server
+```
+npm start
+```
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+4. Open your browser and navigate to `http://localhost:3000`
 
-### Code Splitting
+## Usage
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+- Double-click a cell to edit its contents
+- Use the formula bar to enter formulas (start with =)
+- Use mathematical functions like =SUM(A1:A5)
+- Use data quality functions like =TRIM(B3)
+- Select multiple cells by dragging or Shift+click
+- Format cells using the toolbar buttons or keyboard shortcuts
+- Add/delete rows and columns using the toolbar buttons
+- Use the Find & Replace feature from the toolbar
+- Save your work using the save button, and load it later
