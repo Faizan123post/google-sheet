@@ -117,7 +117,7 @@ npm start
 
 ## Usage
 
-- Double-click a cell to edit its contents
+- Double-click a cell to edit its contents,After hit Enter to save the content in the cell otherwise it will disappear.
 - Use the formula bar to enter formulas (start with =)
 - Use mathematical functions like =SUM(A1:A5)
 - Use data quality functions like =TRIM(B3)
